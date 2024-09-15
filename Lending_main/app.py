@@ -825,54 +825,15 @@ abi = [
 # 建立合約實例
 contract = web3.eth.contract(address=contract_address, abi=abi)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
 
-@app.route('/deposit')
-def deposit():
-    return render_template('deposit.html')
-
-@app.route('/deposit', methods=['POST'])
-def deposit_post():
-    asset = request.form['asset']
-    amount = request.form['amount']
-    # 這裡添加與合約交互的邏輯
-    return jsonify({'message': f'Successfully deposited {amount} {asset}'})
-
-@app.route('/borrow')
-def borrow():
-    return render_template('borrow.html')
-
-@app.route('/repay')
-def repay():
-    return render_template('repay.html')
-
-@app.route('/liquidation')
-def liquidation():
-    return render_template('liquidation.html')
-
-@app.route('/admin')
-def admin():
-    return render_template('admin.html')
-
-
-
-
-@app.route('/indexP2PMainPage', methods=["GET", "POST"])
+@app.route('/', methods=["GET", "POST"])
 def indexP2PMainPage():
-
     return render_template('indexP2PMainPage.html')
-
-@app.route('/redirect_to_p2plending')
-def redirect_to_p2plending():
-    return redirect(url_for('indexP2PMainPage'))
-
+	
 
 @app.route('/P2PMainPage',methods=["get","post"])
 def P2PMainPage():
-	result = request.form.get("name")
-	r = ''.join(result)
+	r = request.form.get("name")
 	conn=sqlite3.connect('dapp.db')
 	c = conn.cursor()
 	c.execute("insert into user values (?)",(r,))
